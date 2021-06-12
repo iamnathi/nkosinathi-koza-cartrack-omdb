@@ -2,7 +2,7 @@
 
 namespace Cartrack.OMDb.Domain.Models
 {
-    public class Movie
+    public class TitleModel
     {
         public string IMDbID { get; set; }
         public string Title { get; set; }

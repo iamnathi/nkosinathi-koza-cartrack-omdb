@@ -12,12 +12,12 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
     public class CachedEntriesController : ApiControllerBase
     {
         private readonly ILogger<CachedEntriesController> _logger;
-        private readonly IMoviesService _moviesService;
+        private readonly ITitleService _titleService;
 
-        public CachedEntriesController(ILoggerFactory loggerFactory, IMoviesService moviesService) : base(loggerFactory)
+        public CachedEntriesController(ILoggerFactory loggerFactory, ITitleService moviesService) : base(loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<CachedEntriesController>();
-            _moviesService = moviesService ?? throw new ArgumentNullException(nameof(moviesService));
+            _titleService = moviesService ?? throw new ArgumentNullException(nameof(moviesService));
         }
 
         /// <summary>
@@ -29,19 +29,25 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         {
             return await InvokeAppServiceAsync(async () =>
             {
-                return await Task.FromResult(Ok(_moviesService.GetCachedEntries()));
+                return await Task.FromResult(Ok(_titleService.GetCachedTitles()));
             }, "Get all cached entries");
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateCacheEntry([FromBody] CreateMovieRequest request)
+        public async Task<IActionResult> CreateCacheEntry([FromBody] CreateOrUpdateTitleRequest request)
         {
             return await InvokeAppServiceAsync(async () =>
             {
+                var response = await _titleService.SaveOrUpdateTitleAsync(request);
+                return response.Match((result) =>
+                {
+                    return Ok(result.Movie);
+                }, (error) =>
+                {
+                    return StatusCode(error.StatusCode, new { error.ErrorMessages });
+                });
 
-
-                return await Task.FromResult(Ok(_moviesService.GetCachedEntries()));
             }, "Create a cache entry and save to db.");
         }
 
@@ -51,7 +57,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         {
             return await InvokeAppServiceAsync(async () =>
             {
-                var movie = _moviesService.GetCachedEntries()
+                var movie = _titleService.GetCachedTitles()
                         .SingleOrDefault(c => c.IMDbID.Equals(imdbID, StringComparison.InvariantCultureIgnoreCase));
 
                 if (movie != null)
@@ -66,21 +72,38 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
 
         [HttpPut]
         [Route("{imdbID}")]
-        public async Task<IActionResult> UpdateCacheEntry([FromRoute] string imdbID, [FromBody] CreateMovieRequest request)
+        public async Task<IActionResult> UpdateCacheEntry([FromRoute] string imdbID, [FromBody] CreateOrUpdateTitleRequest request)
         {
             return await InvokeAppServiceAsync(async () =>
             {
-                var movie = _moviesService.GetCachedEntries()
-                        .SingleOrDefault(c => c.IMDbID.Equals(imdbID, StringComparison.InvariantCultureIgnoreCase));
+                var response = await _titleService.SaveOrUpdateTitleAsync(request, true);
 
-                if (movie != null)
+                return response.Match((result) =>
                 {
-                    return await Task.FromResult(Ok(movie));
+                    return Ok(result.Movie);
+                }, (error) =>
+                {
+                    return StatusCode(error.StatusCode, new { error.ErrorMessages });
+                });
+
+            }, "Update a cache entry and save to db.");
+        }
+
+        [HttpDelete]
+        [Route("{imdbID}")]
+        public async Task<IActionResult> DeleteCacheEntry([FromRoute] string imdbID)
+        {
+            return await InvokeAppServiceAsync(async () =>
+            {
+                var isSuccessful = await _titleService.DeleteTitleAsync(imdbID);
+                if (isSuccessful)
+                {
+                    return Ok();
                 }
 
-                return await Task.FromResult(NotFound());
+                return BadRequest();
 
-            }, "Get cached entries by key");
+            }, "Delete cached entries by key");
         }
     }
 }

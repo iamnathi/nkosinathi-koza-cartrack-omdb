@@ -21,27 +21,27 @@ using System.Threading.Tasks;
 
 namespace Cartrack.OMDb.Application.Services
 {
-    public class MoviesService : IMoviesService
+    public class TitleService : ITitleService
     {
-        private readonly ILogger<MoviesService> _logger;
+        private readonly ILogger<TitleService> _logger;
         private readonly HttpClient _httpClient;
         private readonly OmdbApiSettings _omdbApiSettings;
 
         private readonly IValidatorFactory _validatorFactory;
-        private readonly IMovieRespository _movieRepository;
-        private readonly ICacheProvider<MovieResult> _cacheProvider;
+        private readonly ITitleRespository _titleRepository;
+        private readonly ICacheProvider<TitleResult> _cacheProvider;
 
-        public MoviesService(ILogger<MoviesService> logger, IOptions<OmdbApiSettings> omdbApiOptions, IHttpClientFactory httpClientFactory, IValidatorFactory validatorFactory, IMovieRespository movieRepository, ICacheProvider<MovieResult> cacheProvider)
+        public TitleService(ILogger<TitleService> logger, IOptions<OmdbApiSettings> omdbApiOptions, IHttpClientFactory httpClientFactory, IValidatorFactory validatorFactory, ITitleRespository movieRepository, ICacheProvider<TitleResult> cacheProvider)
         {
             _logger = logger;
             _omdbApiSettings = omdbApiOptions.Value;
             _httpClient = httpClientFactory.CreateClient(StringConstants.OmdbApiClientName);
             _validatorFactory = validatorFactory;
-            _movieRepository = movieRepository;
+            _titleRepository = movieRepository;
             _cacheProvider = cacheProvider;
         }
 
-        public async Task<OneOf<GetMovieByIdResult, ErrorResult>> GetMovieByIdAsync(GetMovieByIdRequest request)
+        public async Task<OneOf<GetTitleResult, ErrorResult>> GetTitleByIdAsync(GetTitleByIdRequest request)
         {
             try
             {
@@ -64,13 +64,13 @@ namespace Cartrack.OMDb.Application.Services
                     return ErrorResult.FromError(404, new[] { movieResponse.Error });
                 }
 
-                var movie = movieResponse.Adapt<MovieResult>();
+                var movie = movieResponse.Adapt<TitleResult>();
 
                 // Save to the database and add to the cache.
-                await _movieRepository.SaveOrUpdateAsync(movieResponse.Adapt<Movie>());
+                await _titleRepository.SaveOrUpdateAsync(movieResponse.Adapt<TitleModel>());
                 _cacheProvider.AddOrUpdate(movieResponse.IMDbID, movie);
 
-                return new GetMovieByIdResult(movie);
+                return new GetTitleResult(movie);
             }
 
             catch (Exception exception)
@@ -80,7 +80,7 @@ namespace Cartrack.OMDb.Application.Services
             }
         }
 
-        public async Task<OneOf<GetMovieByTitleResult, ErrorResult>> GetMovieByTitleAsync(GetMovieByTitleRequest request)
+        public async Task<OneOf<SearchTitlesResult, ErrorResult>> SearchTitlesAsync(SearchTitlesRequest request)
         {
             try
             {
@@ -103,16 +103,16 @@ namespace Cartrack.OMDb.Application.Services
                     return ErrorResult.FromError(404, new[] { movieResponse.Error });
                 }
 
-                var movies = movieResponse.Search.Adapt<IEnumerable<MovieResult>>();
+                var movies = movieResponse.Search.Adapt<IEnumerable<TitleResult>>();
 
                 // Save to the database and add to the cache.
                 foreach (var movie in movieResponse.Search)
                 {
-                    await _movieRepository.SaveOrUpdateAsync(movie.Adapt<Movie>());
+                    await _titleRepository.SaveOrUpdateAsync(movie.Adapt<TitleModel>());
                     _cacheProvider.AddOrUpdate(movie.IMDbID, movies.SingleOrDefault(m => m.IMDbID.Equals(movie.IMDbID)));
                 }
 
-                return new GetMovieByTitleResult(movies);
+                return new SearchTitlesResult(movies);
             }
 
             catch (Exception exception)
@@ -122,7 +122,36 @@ namespace Cartrack.OMDb.Application.Services
             }
         }
 
-        public IEnumerable<MovieResult> GetCachedEntries()
+        public async Task<OneOf<GetTitleResult, ErrorResult>> SaveOrUpdateTitleAsync(CreateOrUpdateTitleRequest request, bool isUpdateRequest = false)
+        {
+            try
+            {
+                var validation = await ValidateRequestAsync(request);
+                if (!validation.IsValid)
+                {
+                    return ErrorResult.FromError(400, validation.Errors.Select(p => p.ErrorMessage).ToList());
+                }
+
+                if (isUpdateRequest && !_cacheProvider.TryGetValue(request.IMDbID, out var cache))
+                {
+                    return ErrorResult.FromError(404, new[] { "Movie, series, or episode not found." });
+                }
+
+                await _titleRepository.SaveOrUpdateAsync(request.Adapt<TitleModel>());
+
+                cache = request.Adapt<TitleResult>();
+                _cacheProvider.AddOrUpdate(cache.IMDbID, cache);
+
+                return new GetTitleResult(cache);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "An unexpected error occurred while attempting to create a movie, series, or episode.");
+                return ErrorResult.FromError(500, new[] { "An unexpected error occurred while attempting to create a movie, series, or episode." });
+            }
+        }
+
+        public IEnumerable<TitleResult> GetCachedTitles()
         {
             try
             {
@@ -131,19 +160,29 @@ namespace Cartrack.OMDb.Application.Services
             catch (Exception exception)
             {
                 _logger.LogError(exception, "An unexpected error occurred while attempting to get all cached entries.");
-                return Array.Empty<MovieResult>();
+                return Array.Empty<TitleResult>();
             }            
+        }
+
+        public async Task<bool> DeleteTitleAsync(string imdbId)
+        {
+            try
+            {
+                await _titleRepository.DeleteAsync(imdbId);
+                _cacheProvider.Delete(imdbId);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "An unexpected error occurred while attempting to delete a movie, series, or episode.");
+                return false;
+            }
         }
 
         private async Task<ValidationResult> ValidateRequestAsync<TRequest>(TRequest request)
         {
             var validator = _validatorFactory.GetValidator<TRequest>();
             return await validator.ValidateAsync(request);
-        }
-
-        public Task CreateMovieAsync(CreateMovieRequest request)
-        {
-            throw new NotImplementedException();
         }
     }
 }

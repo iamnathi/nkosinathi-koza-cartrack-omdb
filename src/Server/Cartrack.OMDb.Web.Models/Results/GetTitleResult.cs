@@ -2,11 +2,11 @@
 
 namespace Cartrack.OMDb.Web.Models.Results
 {
-    public class GetMovieByIdResult
+    public class GetTitleResult
     {
-        public MovieResult Movie { get; set; }
+        public TitleResult Movie { get; set; }
 
-        public GetMovieByIdResult(MovieResult movie)
+        public GetTitleResult(TitleResult movie)
         {
             Movie = movie;
         }

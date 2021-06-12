@@ -8,24 +8,24 @@ using System.Collections.Generic;
 
 namespace Cartrack.OMDb.Repositories
 {
-    public class MovieRespository : IMovieRespository
+    public class TitleRespository : ITitleRespository
     {
         private readonly string _connectionString;
 
-        public MovieRespository(IConfiguration configuration)
+        public TitleRespository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("OmdbConnectionString");
         }
 
-        public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
+        public async Task<IEnumerable<TitleModel>> GetAllMoviesAsync()
         {
             using (var connection = new MySqlConnection(_connectionString))
             {
-                return await connection.QueryAsync<Movie>("GetAllMovies", commandType: CommandType.StoredProcedure);
+                return await connection.QueryAsync<TitleModel>("GetAllMovies", commandType: CommandType.StoredProcedure);
             }
         }
 
-        public async Task SaveOrUpdateAsync(Movie movie)
+        public async Task SaveOrUpdateAsync(TitleModel movie)
         {
             using (var connection = new MySqlConnection(_connectionString))
             {
@@ -71,7 +71,9 @@ namespace Cartrack.OMDb.Repositories
         {
             using (var connection = new MySqlConnection(_connectionString))
             {
-                await connection.ExecuteAsync("DeleteMovieById", new { imdbId }, commandType: CommandType.StoredProcedure);
+                await connection.ExecuteAsync(
+                    @$"DELETE FROM `omdb`.`movies`
+                       WHERE IMDbID = '{imdbId}';", commandType: CommandType.Text);
             }
         }
     }

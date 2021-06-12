@@ -1,10 +1,10 @@
 ﻿namespace Cartrack.OMDb.Web.Models.Requests
 {
-    public class GetMovieByIdRequest
+    public class GetTitleByIdRequest
     {
         public string IMDbID { get; set; }
 
-        public GetMovieByIdRequest(string imdbID)
+        public GetTitleByIdRequest(string imdbID)
         {
             IMDbID = imdbID;
         }

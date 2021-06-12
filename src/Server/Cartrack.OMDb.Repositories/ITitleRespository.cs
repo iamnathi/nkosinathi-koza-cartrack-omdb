@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Cartrack.OMDb.Repositories
 {
-    public interface IMovieRespository
+    public interface ITitleRespository
     {
-        Task<IEnumerable<Movie>> GetAllMoviesAsync();
-        Task SaveOrUpdateAsync(Movie movie);
+        Task<IEnumerable<TitleModel>> GetAllMoviesAsync();
+        Task SaveOrUpdateAsync(TitleModel movie);
         Task DeleteAsync(string imdbId);
     }
 }

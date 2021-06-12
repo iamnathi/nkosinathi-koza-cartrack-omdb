@@ -28,8 +28,8 @@ namespace Cartrack.OMDb.Web.Api
                 using (var host = CreateHostBuilder(args).Build())
                 {
                     Log.Information("Seeding Cache from DB...");
-                    var movieRepository = host.Services.GetRequiredService<IMovieRespository>();
-                    var cacheProvider = host.Services.GetRequiredService<ICacheProvider<MovieResult>>();
+                    var movieRepository = host.Services.GetRequiredService<ITitleRespository>();
+                    var cacheProvider = host.Services.GetRequiredService<ICacheProvider<TitleResult>>();
                     await MovieCacheSeed.EnsureCacheSeed(movieRepository, cacheProvider);
                     Log.Information("Finished seeding Cache from DB...");
 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Cartrack.OMDb.Web.Models.Results
 {
-    public class GetMovieByTitleResult
+    public class SearchTitlesResult
     {
-        public IEnumerable<MovieResult> Movies { get; set; }
+        public IEnumerable<TitleResult> Movies { get; set; }
 
-        public GetMovieByTitleResult(IEnumerable<MovieResult> movies)
+        public SearchTitlesResult(IEnumerable<TitleResult> movies)
         {
             Movies = movies;
         }

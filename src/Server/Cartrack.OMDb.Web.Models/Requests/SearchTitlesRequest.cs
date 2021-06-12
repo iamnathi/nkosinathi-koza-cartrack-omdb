@@ -1,11 +1,11 @@
 ﻿namespace Cartrack.OMDb.Web.Models.Requests
 {
-    public class GetMovieByTitleRequest
+    public class SearchTitlesRequest
     {
         public string Title { get; set; }
         public int? Year { get; set; }
 
-        public GetMovieByTitleRequest(string title, int? year)
+        public SearchTitlesRequest(string title, int? year)
         {
             Title = title;
             Year = year;

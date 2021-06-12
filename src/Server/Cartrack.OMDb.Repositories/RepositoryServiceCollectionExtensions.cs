@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.AddScoped<IMovieRespository, MovieRespository>();
+            services.AddScoped<ITitleRespository, TitleRespository>();
 
             return services;
         }

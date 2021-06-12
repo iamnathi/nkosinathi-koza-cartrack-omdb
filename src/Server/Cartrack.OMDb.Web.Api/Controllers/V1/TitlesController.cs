@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace Cartrack.OMDb.Web.Api.Controllers.V1
 {
     [ApiVersion("1")]
-    public class MoviesController : ApiControllerBase
+    public class TitlesController : ApiControllerBase
     {
-        private readonly ILogger<MoviesController> _logger;
-        private readonly IMoviesService _moviesService;
+        private readonly ILogger<TitlesController> _logger;
+        private readonly ITitleService _moviesService;
 
-        public MoviesController(ILoggerFactory loggerFactory, IMoviesService moviesService) : base(loggerFactory)
+        public TitlesController(ILoggerFactory loggerFactory, ITitleService moviesService) : base(loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger<MoviesController>();
+            _logger = loggerFactory.CreateLogger<TitlesController>();
             _moviesService = moviesService ?? throw new ArgumentNullException(nameof(moviesService));
         }
 
@@ -30,7 +30,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         {
             return await InvokeAppServiceAsync(async () =>
             {
-                var response = await _moviesService.GetMovieByIdAsync(new GetMovieByIdRequest(imdbId));
+                var response = await _moviesService.GetTitleByIdAsync(new GetTitleByIdRequest(imdbId));
 
                 return response.Match((result) =>
                 {
@@ -55,7 +55,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         {
             return await InvokeAppServiceAsync(async () =>
             {
-                var response = await _moviesService.GetMovieByTitleAsync(new GetMovieByTitleRequest(title, year));
+                var response = await _moviesService.SearchTitlesAsync(new SearchTitlesRequest(title, year));
 
                 return response.Match((result) =>
                 {

@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace Cartrack.OMDb.Application.Validators
 {
-    public class GetMovieByIdRequestValidator : AbstractValidator<GetMovieByIdRequest>
+    public class GetTitleByIdRequestValidator : AbstractValidator<GetTitleByIdRequest>
     {
-        public GetMovieByIdRequestValidator()
+        public GetTitleByIdRequestValidator()
         {
             RuleFor(prop => prop.IMDbID)
                 .Matches(@"ev\d{7}\/\d{4}(-\d)?|(ch|co|ev|nm|tt)\d{7}", RegexOptions.IgnoreCase)

@@ -93,7 +93,7 @@ BEGIN
 	SELECT
 		*
 	FROM omdb.movies AS m
-	INNER JOIN omdb.ratings AS r
+	LEFT OUTER JOIN omdb.ratings AS r
 		ON m.IMDbID = r.IMDbID;
 
 END//

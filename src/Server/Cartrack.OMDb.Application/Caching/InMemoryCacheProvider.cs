@@ -43,23 +43,6 @@ namespace Cartrack.OMDb.Application.Caching
             }
         }
 
-        public async Task AddOrUpdateAsync(string key, Func<Task<TItem>> func)
-        {
-            var item = await func();
-
-            lock (_lockObject)
-            {
-                if (_cache.ContainsKey(key))
-                {
-                    _cache[key] = item;
-                }
-                else
-                {
-                    _cache.Add(key, item);
-                }
-            }
-        }
-
         public void Delete(string key)
         {
             lock (_lockObject)

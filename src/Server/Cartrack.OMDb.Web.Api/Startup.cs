@@ -102,7 +102,7 @@ namespace Cartrack.OMDb.Web.Api
                     Console.ForegroundColor = ConsoleColor.White;
                 }));
 
-            services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<GetMovieByIdRequestValidator>());
+            services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<GetTitleByIdRequestValidator>());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
