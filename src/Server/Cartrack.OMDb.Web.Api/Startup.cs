@@ -11,7 +11,6 @@ using Microsoft.Extensions.Options;
 using Polly.Extensions.Http;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using Microsoft.AspNet.OData.Extensions;
 using Polly;
 using System.IO;
 using System.Linq;
@@ -85,7 +84,6 @@ namespace Cartrack.OMDb.Web.Api
 
             services.AddApplicationServices();
             services.AddRepositories();
-            services.AddOData();
 
             services.Configure<OmdbApiSettings>(Configuration.GetSection(nameof(OmdbApiSettings)));
             services.AddHttpClient(StringConstants.OmdbApiClientName, (provider, httpClient) =>

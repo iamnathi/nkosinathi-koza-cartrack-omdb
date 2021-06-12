@@ -9,9 +9,11 @@ namespace Cartrack.OMDb.Application.Services
 {
     public interface IMoviesService
     {
-        Task<OneOf<GetMovieByIdResult, GetMovieErrorResult>> GetMovieByIdAsync(GetMovieByIdRequest request);
-        Task<OneOf<GetMovieByTitleResult, GetMovieErrorResult>> GetMovieByTitleAsync(GetMovieByTitleRequest request);
+        Task<OneOf<GetMovieByIdResult, ErrorResult>> GetMovieByIdAsync(GetMovieByIdRequest request);
+        Task<OneOf<GetMovieByTitleResult, ErrorResult>> GetMovieByTitleAsync(GetMovieByTitleRequest request);
 
         IEnumerable<MovieResult> GetCachedEntries();
+
+        Task CreateMovieAsync(CreateMovieRequest request);
     }
 }

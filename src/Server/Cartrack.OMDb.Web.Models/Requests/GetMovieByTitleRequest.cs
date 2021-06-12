@@ -14,8 +14,8 @@
         public override string ToString()
         {
             return Year.HasValue
-                ? $"t={Title}&y={Year}"
-                : $"t={Title}";
+                ? $"s={Title}&y={Year}"
+                : $"s={Title}";
         }
     }
 }

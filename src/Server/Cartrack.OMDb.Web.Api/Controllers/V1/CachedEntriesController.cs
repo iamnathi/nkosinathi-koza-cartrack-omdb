@@ -1,8 +1,9 @@
 ﻿using Cartrack.OMDb.Application.Services;
-using Microsoft.AspNet.OData;
+using Cartrack.OMDb.Web.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cartrack.OMDb.Web.Api.Controllers.V1
@@ -24,7 +25,6 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [EnableQuery]
         public async Task<IActionResult> GetEntriesAsync()
         {
             return await InvokeAppServiceAsync(async () =>
@@ -34,6 +34,53 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> CreateCacheEntry([FromBody] CreateMovieRequest request)
+        {
+            return await InvokeAppServiceAsync(async () =>
+            {
 
+
+                return await Task.FromResult(Ok(_moviesService.GetCachedEntries()));
+            }, "Create a cache entry and save to db.");
+        }
+
+        [HttpGet]
+        [Route("{imdbID}")]
+        public async Task<IActionResult> GetCacheEntry([FromRoute] string imdbID)
+        {
+            return await InvokeAppServiceAsync(async () =>
+            {
+                var movie = _moviesService.GetCachedEntries()
+                        .SingleOrDefault(c => c.IMDbID.Equals(imdbID, StringComparison.InvariantCultureIgnoreCase));
+
+                if (movie != null)
+                {
+                    return await Task.FromResult(Ok(movie));
+                }
+
+                return await Task.FromResult(NotFound());
+
+            }, "Get cached entries by key");
+        }
+
+        [HttpPut]
+        [Route("{imdbID}")]
+        public async Task<IActionResult> UpdateCacheEntry([FromRoute] string imdbID, [FromBody] CreateMovieRequest request)
+        {
+            return await InvokeAppServiceAsync(async () =>
+            {
+                var movie = _moviesService.GetCachedEntries()
+                        .SingleOrDefault(c => c.IMDbID.Equals(imdbID, StringComparison.InvariantCultureIgnoreCase));
+
+                if (movie != null)
+                {
+                    return await Task.FromResult(Ok(movie));
+                }
+
+                return await Task.FromResult(NotFound());
+
+            }, "Get cached entries by key");
+        }
     }
 }

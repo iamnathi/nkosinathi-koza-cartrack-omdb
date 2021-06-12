@@ -2,14 +2,14 @@
 
 namespace Cartrack.OMDb.Web.Models.Results
 {
-    public class GetMovieErrorResult
+    public class ErrorResult
     {
         public int StatusCode { get; set; }
         public IReadOnlyCollection<string> ErrorMessages { get; set; }
 
-        public static GetMovieErrorResult FromError(int statusCode, IReadOnlyCollection<string> errorMessages)
+        public static ErrorResult FromError(int statusCode, IReadOnlyCollection<string> errorMessages)
         {
-            return new GetMovieErrorResult
+            return new ErrorResult
             {
                 StatusCode = statusCode,
                 ErrorMessages = errorMessages

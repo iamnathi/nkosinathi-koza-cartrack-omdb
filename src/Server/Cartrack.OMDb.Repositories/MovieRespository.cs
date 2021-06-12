@@ -52,15 +52,18 @@ namespace Cartrack.OMDb.Repositories
                     movie.IMDbVotes
                 }, commandType: CommandType.StoredProcedure);
 
-                foreach (var rating in movie.Ratings)
+                if (movie.Ratings != null)
                 {
-                    await connection.ExecuteAsync("SaveOrUpdateMovieRating", new 
-                    { 
-                        movie.IMDbID, 
-                        rating.Source, 
-                        rating.Value 
-                    }, commandType: CommandType.StoredProcedure);
-                }
+                    foreach (var rating in movie.Ratings)
+                    {
+                        await connection.ExecuteAsync("SaveOrUpdateMovieRating", new
+                        {
+                            movie.IMDbID,
+                            rating.Source,
+                            rating.Value
+                        }, commandType: CommandType.StoredProcedure);
+                    }
+                }                
             }
         }
 

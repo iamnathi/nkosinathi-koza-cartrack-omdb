@@ -1,6 +1,6 @@
-﻿namespace Cartrack.OMDb.Web.Models.Results.Models
+﻿namespace Cartrack.OMDb.Web.Models.Requests
 {
-    public class MovieResult
+    public class CreateMovieRequest
     {
         public string IMDbID { get; set; }
         public string Title { get; set; }

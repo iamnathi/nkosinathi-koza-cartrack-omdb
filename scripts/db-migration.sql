@@ -1,25 +1,27 @@
+CREATE SCHEMA `omdb`;
+
 USE `omdb`;
 
 CREATE TABLE `omdb`.`movies` (
   `IMDbID` VARCHAR(20) NOT NULL,
   `Title` VARCHAR(100) NOT NULL,
-  `Type` VARCHAR(15) NOT NULL,
-  `Year` VARCHAR(10) NOT NULL,
-  `Rated` VARCHAR(50) NOT NULL,  
-  `Released` VARCHAR(50) NOT NULL,
-  `Runtime` VARCHAR(50) NOT NULL,
-  `Genre` VARCHAR(100) NOT NULL,
-  `Director` VARCHAR(255) NOT NULL,
-  `Writer` VARCHAR(255) NOT NULL,
-  `Actors` VARCHAR(255) NOT NULL,
-  `Plot` VARCHAR(2000) NOT NULL,
-  `Language` VARCHAR(100) NOT NULL,
-  `Country` VARCHAR(100) NOT NULL,
-  `Awards` VARCHAR(255) NOT NULL,
-  `Poster` VARCHAR(255) NOT NULL,
-  `Metascore` VARCHAR(50) NOT NULL,
-  `IMDbRating` VARCHAR(50) NOT NULL,
-  `IMDbVotes` VARCHAR(50) NOT NULL, 
+  `Year` VARCHAR(20) NOT NULL,
+  `Type` VARCHAR(15) NOT NULL,  
+  `Poster` VARCHAR(255) NULL,
+  `Rated` VARCHAR(50) NULL,  
+  `Released` VARCHAR(50) NULL,
+  `Runtime` VARCHAR(50) NULL,
+  `Genre` VARCHAR(100) NULL,
+  `Director` VARCHAR(255) NULL,
+  `Writer` VARCHAR(255) NULL,
+  `Actors` VARCHAR(255) NULL,
+  `Plot` VARCHAR(2000) NULL,
+  `Language` VARCHAR(100) NULL,
+  `Country` VARCHAR(100) NULL,
+  `Awards` VARCHAR(255) NULL,  
+  `Metascore` VARCHAR(50) NULL,
+  `IMDbRating` VARCHAR(50) NULL,
+  `IMDbVotes` VARCHAR(50) NULL, 
   PRIMARY KEY (`IMDbID`)
 );
 
@@ -84,8 +86,6 @@ END//
 
 DELIMITER ;
 
-USE omdb;
-
 DELIMITER //
 CREATE PROCEDURE GetAllMovies ()
 BEGIN
@@ -99,9 +99,6 @@ BEGIN
 END//
 
 DELIMITER ;
-
-
-USE omdb;
 
 DELIMITER //
 CREATE PROCEDURE SaveOrUpdateMovieRating (
@@ -117,9 +114,6 @@ BEGIN
 END//
 
 DELIMITER ;
-
-
-USE omdb;
 
 DELIMITER //
 CREATE PROCEDURE DeleteMovieById (

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Cartrack.OMDb.Web.Models.Omdb
 {
-    public class MovieResponse : ResponseBase
+    public class GetMovieResponse : ResponseBase
     {
         [JsonPropertyName("imdbID")]
         public string IMDbID { get; set; }

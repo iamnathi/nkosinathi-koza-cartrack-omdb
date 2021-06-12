@@ -1,14 +1,15 @@
 ﻿using Cartrack.OMDb.Web.Models.Results.Models;
+using System.Collections.Generic;
 
 namespace Cartrack.OMDb.Web.Models.Results
 {
     public class GetMovieByTitleResult
     {
-        public MovieResult Movie { get; set; }
+        public IEnumerable<MovieResult> Movies { get; set; }
 
-        public GetMovieByTitleResult(MovieResult movie)
+        public GetMovieByTitleResult(IEnumerable<MovieResult> movies)
         {
-            Movie = movie;
+            Movies = movies;
         }
     }
 }

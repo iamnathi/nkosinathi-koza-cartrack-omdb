@@ -41,27 +41,27 @@ namespace Cartrack.OMDb.Application.Services
             _cacheProvider = cacheProvider;
         }
 
-        public async Task<OneOf<GetMovieByIdResult, GetMovieErrorResult>> GetMovieByIdAsync(GetMovieByIdRequest request)
+        public async Task<OneOf<GetMovieByIdResult, ErrorResult>> GetMovieByIdAsync(GetMovieByIdRequest request)
         {
             try
             {
                 var validation = await ValidateRequestAsync(request);
                 if (!validation.IsValid)
                 {
-                    return GetMovieErrorResult.FromError(400, validation.Errors.Select(p => p.ErrorMessage).ToList());
+                    return ErrorResult.FromError(400, validation.Errors.Select(p => p.ErrorMessage).ToList());
                 }
 
                 var response = await _httpClient.GetAsync(string.Format(StringConstants.OmdbApiQueryStringTemplate, _omdbApiSettings.ApiKey, request));
                 if (!response.IsSuccessStatusCode)
                 {
-                    return GetMovieErrorResult.FromError((int)response.StatusCode, new[] { response.ReasonPhrase });
+                    return ErrorResult.FromError((int)response.StatusCode, new[] { response.ReasonPhrase });
                 }
 
                 // The OMDb API returns 200 whether the movie was found or not
-                var movieResponse = JsonSerializer.Deserialize<MovieResponse>(await response.Content.ReadAsStringAsync());
-                if (movieResponse == null || !movieResponse.MovieFound())
+                var movieResponse = JsonSerializer.Deserialize<GetMovieResponse>(await response.Content.ReadAsStringAsync());
+                if (movieResponse == null || !movieResponse.IsNot404())
                 {
-                    return GetMovieErrorResult.FromError(404, new[] { movieResponse.Error });
+                    return ErrorResult.FromError(404, new[] { movieResponse.Error });
                 }
 
                 var movie = movieResponse.Adapt<MovieResult>();
@@ -76,45 +76,49 @@ namespace Cartrack.OMDb.Application.Services
             catch (Exception exception)
             {
                 _logger.LogError(exception, "An unexpected error occurred while attempting to get movie by IMDb ID: {IMDbID}.", request.IMDbID);
-                return GetMovieErrorResult.FromError(500, new[] { $"An unexpected error occurred while attempting to get movie by IMDb ID: {request.IMDbID}." });
+                return ErrorResult.FromError(500, new[] { $"An unexpected error occurred while attempting to get movie by IMDb ID: {request.IMDbID}." });
             }
         }
 
-        public async Task<OneOf<GetMovieByTitleResult, GetMovieErrorResult>> GetMovieByTitleAsync(GetMovieByTitleRequest request)
+        public async Task<OneOf<GetMovieByTitleResult, ErrorResult>> GetMovieByTitleAsync(GetMovieByTitleRequest request)
         {
             try
             {
                 var validation = await ValidateRequestAsync(request);
                 if (!validation.IsValid)
                 {
-                    return GetMovieErrorResult.FromError(400, validation.Errors.Select(p => p.ErrorMessage).ToList());
+                    return ErrorResult.FromError(400, validation.Errors.Select(p => p.ErrorMessage).ToList());
                 }
 
                 var response = await _httpClient.GetAsync(string.Format(StringConstants.OmdbApiQueryStringTemplate, _omdbApiSettings.ApiKey, request));
                 if (!response.IsSuccessStatusCode)
                 {
-                    return GetMovieErrorResult.FromError((int)response.StatusCode, new[] { response.ReasonPhrase });
+                    return ErrorResult.FromError((int)response.StatusCode, new[] { response.ReasonPhrase });
                 }
 
                 // The OMDb API returns 200 whether the movie was found or not
-                var movieResponse = JsonSerializer.Deserialize<MovieResponse>(await response.Content.ReadAsStringAsync());
-                if (movieResponse == null || !movieResponse.MovieFound())
+                var movieResponse = JsonSerializer.Deserialize<SearchMovieResponse>(await response.Content.ReadAsStringAsync());
+                if (movieResponse == null || !movieResponse.IsNot404())
                 {
-                    return GetMovieErrorResult.FromError(404, new[] { movieResponse.Error });
+                    return ErrorResult.FromError(404, new[] { movieResponse.Error });
                 }
 
-                var movie = movieResponse.Adapt<MovieResult>();
-                // Save to the database and add to the cache.
-                await _movieRepository.SaveOrUpdateAsync(movieResponse.Adapt<Movie>());
-                _cacheProvider.AddOrUpdate(movieResponse.IMDbID, movie);
+                var movies = movieResponse.Search.Adapt<IEnumerable<MovieResult>>();
 
-                return new GetMovieByTitleResult(movie);
+                // Save to the database and add to the cache.
+                foreach (var movie in movieResponse.Search)
+                {
+                    await _movieRepository.SaveOrUpdateAsync(movie.Adapt<Movie>());
+                    _cacheProvider.AddOrUpdate(movie.IMDbID, movies.SingleOrDefault(m => m.IMDbID.Equals(movie.IMDbID)));
+                }
+
+                return new GetMovieByTitleResult(movies);
             }
 
             catch (Exception exception)
             {
                 _logger.LogError(exception, "An unexpected error occurred while attempting to get movie by title.", request.Title);
-                return GetMovieErrorResult.FromError(500, new[] { $"An unexpected error occurred while attempting to get movie by title: {request.Title}." });
+                return ErrorResult.FromError(500, new[] { $"An unexpected error occurred while attempting to get movie by title: {request.Title}." });
             }
         }
 
@@ -135,6 +139,11 @@ namespace Cartrack.OMDb.Application.Services
         {
             var validator = _validatorFactory.GetValidator<TRequest>();
             return await validator.ValidateAsync(request);
+        }
+
+        public Task CreateMovieAsync(CreateMovieRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

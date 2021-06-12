@@ -59,7 +59,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
 
                 return response.Match((result) =>
                 {
-                    return Ok(result.Movie);
+                    return Ok(result.Movies);
                 }, (error) =>
                 {
                     return StatusCode(error.StatusCode, new { error.ErrorMessages });
