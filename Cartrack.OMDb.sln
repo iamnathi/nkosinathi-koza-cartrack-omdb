@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C85D3144-F7DB-4C3E-843D-4E838DC6730E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F7E84993-5B58-476B-B255-61D4E2B81A8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{A1BF5689-D353-4636-A428-D72AE34B221A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{B38424B9-3EF2-4017-9464-CF25967235A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Domain", "src\Server\Cartrack.OMDb.Domain\Cartrack.OMDb.Domain.csproj", "{980A7A8F-782C-4577-89A1-D6413C9F3946}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartrack.OMDb.Web.Api", "src\Server\Cartrack.OMDb.Web.Api\Cartrack.OMDb.Web.Api.csproj", "{271C677B-C472-4629-AAD2-255062517A77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Application", "src\Server\Cartrack.OMDb.Application\Cartrack.OMDb.Application.csproj", "{42394ACD-AC24-48CB-B755-2520B0EBC487}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Repositories", "src\Server\Cartrack.OMDb.Repositories\Cartrack.OMDb.Repositories.csproj", "{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Web.Models", "src\Server\Cartrack.OMDb.Web.Models\Cartrack.OMDb.Web.Models.csproj", "{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{980A7A8F-782C-4577-89A1-D6413C9F3946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{980A7A8F-782C-4577-89A1-D6413C9F3946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{980A7A8F-782C-4577-89A1-D6413C9F3946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{980A7A8F-782C-4577-89A1-D6413C9F3946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271C677B-C472-4629-AAD2-255062517A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271C677B-C472-4629-AAD2-255062517A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271C677B-C472-4629-AAD2-255062517A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271C677B-C472-4629-AAD2-255062517A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42394ACD-AC24-48CB-B755-2520B0EBC487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42394ACD-AC24-48CB-B755-2520B0EBC487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42394ACD-AC24-48CB-B755-2520B0EBC487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42394ACD-AC24-48CB-B755-2520B0EBC487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A1BF5689-D353-4636-A428-D72AE34B221A} = {C85D3144-F7DB-4C3E-843D-4E838DC6730E}
+		{B38424B9-3EF2-4017-9464-CF25967235A0} = {C85D3144-F7DB-4C3E-843D-4E838DC6730E}
+		{980A7A8F-782C-4577-89A1-D6413C9F3946} = {A1BF5689-D353-4636-A428-D72AE34B221A}
+		{271C677B-C472-4629-AAD2-255062517A77} = {A1BF5689-D353-4636-A428-D72AE34B221A}
+		{42394ACD-AC24-48CB-B755-2520B0EBC487} = {A1BF5689-D353-4636-A428-D72AE34B221A}
+		{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF} = {A1BF5689-D353-4636-A428-D72AE34B221A}
+		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1} = {A1BF5689-D353-4636-A428-D72AE34B221A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4161204F-090E-41CA-BEA4-A8ED0E44B276}
+	EndGlobalSection
+EndGlobal

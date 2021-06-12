@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cartrack.OMDb.Web.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.ApiControllerBase.InvokeAppServiceAsync(System.Func{System.Threading.Tasks.Task{Microsoft.AspNetCore.Mvc.IActionResult}},System.String)">
+            <summary>
+            
+            </summary>
+            <param name="func">Encapsulated method to perform the <paramref name="operation"/></param>
+            <param name="operation">Friendly name for the operation to be performed</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.CachedEntriesController.GetEntriesAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.MoviesController.GetMovieByIdAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="imdbId">IMDb ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.MoviesController.GetMovieByTitleAsync(System.String,System.Nullable{System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="title">Movie title to search for.</param>
+            <param name="year">Year of release.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
