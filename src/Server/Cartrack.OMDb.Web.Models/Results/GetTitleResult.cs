@@ -4,11 +4,11 @@ namespace Cartrack.OMDb.Web.Models.Results
 {
     public class GetTitleResult
     {
-        public TitleResult Movie { get; set; }
+        public TitleResult Title { get; set; }
 
         public GetTitleResult(TitleResult movie)
         {
-            Movie = movie;
+            Title = movie;
         }
     }
 }

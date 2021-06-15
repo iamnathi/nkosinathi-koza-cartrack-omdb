@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Cartrack.OMDb.Web.Models.Results.Models
+﻿namespace Cartrack.OMDb.Clients.Cli.API.Requests
 {
-    public class TitleResult
+    public class CreateOrUpdateCacheEntryRequest
     {
-        [Key]
         public string IMDbID { get; set; }
         public string Title { get; set; }
         public string Year { get; set; }

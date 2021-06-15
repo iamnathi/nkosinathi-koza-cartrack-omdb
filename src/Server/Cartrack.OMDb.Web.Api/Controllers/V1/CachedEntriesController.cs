@@ -1,5 +1,7 @@
 ﻿using Cartrack.OMDb.Application.Services;
 using Cartrack.OMDb.Web.Models.Requests;
+using Cartrack.OMDb.Web.Models.Results;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -25,6 +27,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [EnableQuery]
         public async Task<IActionResult> GetEntriesAsync()
         {
             return await InvokeAppServiceAsync(async () =>
@@ -42,7 +45,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
                 var response = await _titleService.SaveOrUpdateTitleAsync(request);
                 return response.Match((result) =>
                 {
-                    return Ok(result.Movie);
+                    return Ok(result);
                 }, (error) =>
                 {
                     return StatusCode(error.StatusCode, new { error.ErrorMessages });
@@ -62,7 +65,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
 
                 if (movie != null)
                 {
-                    return await Task.FromResult(Ok(movie));
+                    return await Task.FromResult(Ok(new GetTitleResult(movie)));
                 }
 
                 return await Task.FromResult(NotFound());
@@ -80,7 +83,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
 
                 return response.Match((result) =>
                 {
-                    return Ok(result.Movie);
+                    return Ok(result);
                 }, (error) =>
                 {
                     return StatusCode(error.StatusCode, new { error.ErrorMessages });

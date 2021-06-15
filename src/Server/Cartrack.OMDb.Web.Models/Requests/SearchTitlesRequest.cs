@@ -2,20 +2,22 @@
 {
     public class SearchTitlesRequest
     {
-        public string Title { get; set; }
+        public string SearchTerm { get; set; }
         public int? Year { get; set; }
+        public int PageNumber { get; set; }
 
-        public SearchTitlesRequest(string title, int? year)
+        public SearchTitlesRequest(string searchTerm, int? year = null, int pageNumber = 1)
         {
-            Title = title;
+            SearchTerm = searchTerm;
             Year = year;
+            PageNumber = pageNumber;
         }
 
         public override string ToString()
         {
             return Year.HasValue
-                ? $"s={Title}&y={Year}"
-                : $"s={Title}";
+                ? $"s={SearchTerm}&y={Year}"
+                : $"s={SearchTerm}";
         }
     }
 }

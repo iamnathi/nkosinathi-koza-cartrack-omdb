@@ -18,6 +18,11 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Cartrack.OMDb.Application.Validators;
+using Microsoft.AspNet.OData.Extensions;
+using OData.Swagger.Services;
+using Microsoft.OData.Edm;
+using Microsoft.AspNet.OData.Builder;
+using Cartrack.OMDb.Web.Models.Results.Models;
 
 namespace Cartrack.OMDb.Web.Api
 {
@@ -36,7 +41,7 @@ namespace Cartrack.OMDb.Web.Api
             services.AddControllers(options =>
             {
                 options.Conventions.Add(new ApiExplorerGroupPerVersionConvention());
-            });
+            }).AddNewtonsoftJson();
 
             services.AddApiVersioning(options =>
             {
@@ -84,6 +89,8 @@ namespace Cartrack.OMDb.Web.Api
 
             services.AddApplicationServices();
             services.AddRepositories();
+            services.AddOData();
+            services.AddOdataSwaggerSupport();
 
             services.Configure<OmdbApiSettings>(Configuration.GetSection(nameof(OmdbApiSettings)));
             services.AddHttpClient(StringConstants.OmdbApiClientName, (provider, httpClient) =>
@@ -97,7 +104,7 @@ namespace Cartrack.OMDb.Web.Api
                 .HandleTransientHttpError()
                 .RetryAsync(3, (exception, retryCount) =>
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"[{retryCount}]: Retrying HTTP Call to OMDb API due to: {exception.Exception.Message}");
                     Console.ForegroundColor = ConsoleColor.White;
                 }));
@@ -123,6 +130,13 @@ namespace Cartrack.OMDb.Web.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.EnableDependencyInjection();
+                endpoints.Select().Count().OrderBy().Filter();
+
+                endpoints.MapODataRoute(
+                    routeName: "api", 
+                    routePrefix: "api", 
+                    model: GetEdmModel());
             });
         }
 
@@ -133,6 +147,13 @@ namespace Cartrack.OMDb.Web.Api
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 return Path.Combine(AppContext.BaseDirectory, xmlFile);
             }
+        }
+
+        static IEdmModel GetEdmModel()
+        {
+            var builder = new ODataConventionModelBuilder();
+            builder.EntitySet<TitleResult>("Titles");
+            return builder.GetEdmModel();
         }
     }
 }

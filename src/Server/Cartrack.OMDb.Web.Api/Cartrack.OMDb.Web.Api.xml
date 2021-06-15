@@ -18,18 +18,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.MoviesController.GetMovieByIdAsync(System.String)">
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.TitlesController.GetTitleByIdAsync(System.String)">
             <summary>
             
             </summary>
-            <param name="imdbId">IMDb ID</param>
+            <param name="imdbId">IMDb ID (e.g </param>
             <returns></returns>
         </member>
-        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.MoviesController.GetMovieByTitleAsync(System.String,System.Nullable{System.Int32})">
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.TitlesController.SearchTitlesAsync(System.String,System.Nullable{System.Int32})">
             <summary>
             
             </summary>
-            <param name="title">Movie title to search for.</param>
+            <param name="searchTerm">Search term to search titles for.</param>
             <param name="year">Year of release.</param>
             <returns></returns>
         </member>
