@@ -9,7 +9,7 @@ namespace Cartrack.OMDb.Clients.Cli.Validators
         {
             RuleFor(prop => prop.SearchTerm)
                 .NotEmpty()
-                .WithMessage("Please provide a title for the movie, series, or episode.");
+                .WithMessage("Please provide a term to search for movies, series, or episodes with.");
         }
     }
 }

@@ -116,7 +116,7 @@ namespace Cartrack.OMDb.Clients.Cli
             {
                 if (deleted)
                 {
-                    _console.WriteLine($"Cache entry {options.IMDbID} deleted", ConsoleColor.Yellow);
+                    _console.WriteLine($"Cache entry {options.IMDbID} deleted.", ConsoleColor.Yellow);
                 }
                 else
                 {

@@ -2,7 +2,7 @@ CREATE SCHEMA `omdb`;
 
 USE `omdb`;
 
-CREATE TABLE `omdb`.`movies` (
+CREATE TABLE `omdb`.`titles` (
   `IMDbID` VARCHAR(20) NOT NULL,
   `Title` VARCHAR(100) NOT NULL,
   `Year` VARCHAR(20) NOT NULL,
@@ -31,12 +31,12 @@ CREATE TABLE `omdb`.`ratings` (
 	`Value` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`IMDbID`, `Source`, `Value`),
     FOREIGN KEY (`IMDbID`) 
-		REFERENCES `omdb`.`movies` (`IMDbID`)
+		REFERENCES `omdb`.`titles` (`IMDbID`)
         ON DELETE CASCADE
 );
 
 DELIMITER //
-CREATE PROCEDURE SaveOrUpdateMovie (
+CREATE PROCEDURE `omdb`.`SaveOrUpdateTitle` (
 	IN iMDbID VARCHAR(20),
 	IN title VARCHAR(100),
 	IN type VARCHAR(15),
@@ -59,7 +59,7 @@ CREATE PROCEDURE SaveOrUpdateMovie (
 )
 BEGIN
 
-	INSERT INTO `omdb`.`movies` (IMDbID, Title, Type, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards, Poster, Metascore, IMDbRating, IMDbVotes)
+	INSERT INTO `omdb`.`titles` (IMDbID, Title, Type, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards, Poster, Metascore, IMDbRating, IMDbVotes)
     VALUES (iMDbID, title, type, year, rated, released, runtime, genre, director, writer, actors, plot, language, country, awards, poster, metascore, iMDbRating, iMDbVotes)
     ON DUPLICATE KEY 
 		UPDATE
@@ -87,13 +87,13 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE GetAllMovies ()
+CREATE PROCEDURE `omdb`.`GetAllTitles` ()
 BEGIN
 
 	SELECT
 		*
-	FROM omdb.movies AS m
-	LEFT OUTER JOIN omdb.ratings AS r
+	FROM `omdb`.`titles` AS m
+	LEFT OUTER JOIN `omdb`.`ratings` AS r
 		ON m.IMDbID = r.IMDbID;
 
 END//
@@ -101,7 +101,7 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE SaveOrUpdateMovieRating (
+CREATE PROCEDURE `omdb`.`SaveOrUpdateTitleRating` (
 	IN iMDbID VARCHAR(20),
 	IN source VARCHAR(100),
 	IN value VARCHAR(20)
@@ -110,19 +110,6 @@ BEGIN
 
 	INSERT IGNORE  INTO `omdb`.`ratings` (IMDbID, Source, Value)
     VALUES (iMDbID, source, value);
-
-END//
-
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE DeleteMovieById (
-	IN imdbId VARCHAR(20)
-)
-BEGIN
-
-	DELETE FROM `omdb`.`movies`
-    WHERE IMDbID = imdbId;
 
 END//
 

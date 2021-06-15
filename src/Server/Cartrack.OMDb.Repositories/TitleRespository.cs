@@ -21,7 +21,7 @@ namespace Cartrack.OMDb.Repositories
         {
             using (var connection = new MySqlConnection(_connectionString))
             {
-                return await connection.QueryAsync<TitleModel>("GetAllMovies", commandType: CommandType.StoredProcedure);
+                return await connection.QueryAsync<TitleModel>("omdb.GetAllTitles", commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -29,7 +29,7 @@ namespace Cartrack.OMDb.Repositories
         {
             using (var connection = new MySqlConnection(_connectionString))
             {
-                await connection.ExecuteAsync("SaveOrUpdateMovie", new 
+                await connection.ExecuteAsync("omdb.SaveOrUpdateTitle", new 
                 {
                     movie.IMDbID,
                     movie.Title,
@@ -56,7 +56,7 @@ namespace Cartrack.OMDb.Repositories
                 {
                     foreach (var rating in movie.Ratings)
                     {
-                        await connection.ExecuteAsync("SaveOrUpdateMovieRating", new
+                        await connection.ExecuteAsync("omdb.SaveOrUpdateTitleRating", new
                         {
                             movie.IMDbID,
                             rating.Source,
@@ -72,7 +72,7 @@ namespace Cartrack.OMDb.Repositories
             using (var connection = new MySqlConnection(_connectionString))
             {
                 await connection.ExecuteAsync(
-                    @$"DELETE FROM `omdb`.`movies`
+                    @$"DELETE FROM `omdb`.`titles`
                        WHERE IMDbID = '{imdbId}';", commandType: CommandType.Text);
             }
         }
