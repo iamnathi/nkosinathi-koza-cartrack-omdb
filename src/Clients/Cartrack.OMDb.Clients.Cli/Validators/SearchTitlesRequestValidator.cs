@@ -1,7 +1,7 @@
-﻿using Cartrack.OMDb.Web.Models.Requests;
+﻿using Cartrack.OMDb.Clients.Cli.Models;
 using FluentValidation;
 
-namespace Cartrack.OMDb.Application.Validators
+namespace Cartrack.OMDb.Clients.Cli.Validators
 {
     public class SearchTitlesRequestValidator : AbstractValidator<SearchTitlesRequest>
     {
