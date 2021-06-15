@@ -1,11 +1,9 @@
 ﻿using Cartrack.OMDb.Application.Services;
 using Cartrack.OMDb.Web.Models.Requests;
-using Cartrack.OMDb.Web.Models.Results;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cartrack.OMDb.Web.Api.Controllers.V1
@@ -23,7 +21,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         }
 
         /// <summary>
-        /// 
+        /// Get all cached entries (OData enabled endpoint)
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -37,6 +35,11 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         }
 
 
+        /// <summary>
+        /// Create a cache entry.
+        /// </summary>
+        /// <param name="request">Request object with mandatory fields for creating a title entry</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateCacheEntry([FromBody] CreateOrUpdateTitleRequest request)
         {
@@ -51,28 +54,14 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
                     return StatusCode(error.StatusCode, new { error.ErrorMessages });
                 });
 
-            }, "Create a cache entry and save to db.");
+            }, "Create a cache entry.");
         }
 
-        [HttpGet]
-        [Route("{imdbID}")]
-        public async Task<IActionResult> GetCacheEntry([FromRoute] string imdbID)
-        {
-            return await InvokeAppServiceAsync(async () =>
-            {
-                var movie = _titleService.GetCachedTitles()
-                        .SingleOrDefault(c => c.IMDbID.Equals(imdbID, StringComparison.InvariantCultureIgnoreCase));
-
-                if (movie != null)
-                {
-                    return await Task.FromResult(Ok(new GetTitleResult(movie)));
-                }
-
-                return await Task.FromResult(NotFound());
-
-            }, "Get cached entries by key");
-        }
-
+        /// <summary>
+        /// Get cached entries by IMDbID
+        /// </summary>
+        /// <param name="imdbID">The IMDbID of the cached entry to update</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{imdbID}")]
         public async Task<IActionResult> UpdateCacheEntry([FromRoute] string imdbID, [FromBody] CreateOrUpdateTitleRequest request)
@@ -92,6 +81,11 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
             }, "Update a cache entry and save to db.");
         }
 
+        /// <summary>
+        /// Delete cache entry by IMDbID
+        /// </summary>
+        /// <param name="imdbID">The IMDbID of the cached entry to delete</param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{imdbID}")]
         public async Task<IActionResult> DeleteCacheEntry([FromRoute] string imdbID)

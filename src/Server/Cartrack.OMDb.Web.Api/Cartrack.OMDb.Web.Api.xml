@@ -14,20 +14,41 @@
         </member>
         <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.CachedEntriesController.GetEntriesAsync">
             <summary>
-            
+            Get all cached entries (OData enabled endpoint)
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.CachedEntriesController.CreateCacheEntry(Cartrack.OMDb.Web.Models.Requests.CreateOrUpdateTitleRequest)">
+            <summary>
+            Create a cache entry.
+            </summary>
+            <param name="request">Request object with mandatory fields for creating a title entry</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.CachedEntriesController.UpdateCacheEntry(System.String,Cartrack.OMDb.Web.Models.Requests.CreateOrUpdateTitleRequest)">
+            <summary>
+            Get cached entries by IMDbID
+            </summary>
+            <param name="imdbID">The IMDbID of the cached entry to update</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.CachedEntriesController.DeleteCacheEntry(System.String)">
+            <summary>
+            Delete cache entry by IMDbID
+            </summary>
+            <param name="imdbID">The IMDbID of the cached entry to delete</param>
             <returns></returns>
         </member>
         <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.TitlesController.GetTitleByIdAsync(System.String)">
             <summary>
-            
+            Get a title from the OMDb API and add it to the cache
             </summary>
             <param name="imdbId">IMDb ID (e.g </param>
             <returns></returns>
         </member>
         <member name="M:Cartrack.OMDb.Web.Api.Controllers.V1.TitlesController.SearchTitlesAsync(System.String,System.Nullable{System.Int32})">
             <summary>
-            
+            Search titles from the OMDb API and add them to the cache
             </summary>
             <param name="searchTerm">Search term to search titles for.</param>
             <param name="year">Year of release.</param>

@@ -20,7 +20,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         }
 
         /// <summary>
-        /// 
+        /// Get a title from the OMDb API and add it to the cache
         /// </summary>
         /// <param name="imdbId">IMDb ID (e.g </param>
         /// <returns></returns>
@@ -44,7 +44,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         }
 
         /// <summary>
-        /// 
+        /// Search titles from the OMDb API and add them to the cache
         /// </summary>
         /// <param name="searchTerm">Search term to search titles for.</param>
         /// <param name="year">Year of release.</param>
