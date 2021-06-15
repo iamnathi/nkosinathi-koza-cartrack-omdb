@@ -112,13 +112,13 @@ namespace Cartrack.OMDb.Application.Services
                     _cacheProvider.AddOrUpdate(movie.IMDbID, movies.SingleOrDefault(m => m.IMDbID.Equals(movie.IMDbID)));
                 }
 
-                return new SearchTitlesResult(movies);
+                return new SearchTitlesResult(movies, movieResponse.TotalSearchCount, request.PageNumber);
             }
 
             catch (Exception exception)
             {
-                _logger.LogError(exception, "An unexpected error occurred while attempting to get movie by title.", request.Title);
-                return ErrorResult.FromError(500, new[] { $"An unexpected error occurred while attempting to get movie by title: {request.Title}." });
+                _logger.LogError(exception, "An unexpected error occurred while attempting to get movie by title.", request.SearchTerm);
+                return ErrorResult.FromError(500, new[] { $"An unexpected error occurred while attempting to get movie by title: {request.SearchTerm}." });
             }
         }
 

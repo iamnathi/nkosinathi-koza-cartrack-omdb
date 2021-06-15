@@ -9,17 +9,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F7E84993
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{A1BF5689-D353-4636-A428-D72AE34B221A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{B38424B9-3EF2-4017-9464-CF25967235A0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{B38424B9-3EF2-4017-9464-CF25967235A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Domain", "src\Server\Cartrack.OMDb.Domain\Cartrack.OMDb.Domain.csproj", "{980A7A8F-782C-4577-89A1-D6413C9F3946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartrack.OMDb.Web.Api", "src\Server\Cartrack.OMDb.Web.Api\Cartrack.OMDb.Web.Api.csproj", "{271C677B-C472-4629-AAD2-255062517A77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Web.Api", "src\Server\Cartrack.OMDb.Web.Api\Cartrack.OMDb.Web.Api.csproj", "{271C677B-C472-4629-AAD2-255062517A77}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Application", "src\Server\Cartrack.OMDb.Application\Cartrack.OMDb.Application.csproj", "{42394ACD-AC24-48CB-B755-2520B0EBC487}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Repositories", "src\Server\Cartrack.OMDb.Repositories\Cartrack.OMDb.Repositories.csproj", "{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Web.Models", "src\Server\Cartrack.OMDb.Web.Models\Cartrack.OMDb.Web.Models.csproj", "{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartrack.OMDb.Clients.Cli", "src\Clients\Cartrack.OMDb.Clients.Cli\Cartrack.OMDb.Clients.Cli.csproj", "{2B3E8CD4-A15D-404C-A231-5245EC11EE6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartrack.OMDb.Clients.Cli.Tests.Unit", "tests\Cartrack.OMDb.Clients.Cli.Tests.Unit\Cartrack.OMDb.Clients.Cli.Tests.Unit.csproj", "{8D43C8DD-78E1-42F9-9A58-AF2C6C8CBA6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartrack.OMDb.Application.Tests.Unit", "tests\Cartrack.OMDb.Application.Tests.Unit\Cartrack.OMDb.Application.Tests.Unit.csproj", "{C44838F7-2A6C-4249-BF08-9997B8407013}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +53,18 @@ Global
 		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3E8CD4-A15D-404C-A231-5245EC11EE6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3E8CD4-A15D-404C-A231-5245EC11EE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3E8CD4-A15D-404C-A231-5245EC11EE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3E8CD4-A15D-404C-A231-5245EC11EE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D43C8DD-78E1-42F9-9A58-AF2C6C8CBA6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D43C8DD-78E1-42F9-9A58-AF2C6C8CBA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D43C8DD-78E1-42F9-9A58-AF2C6C8CBA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D43C8DD-78E1-42F9-9A58-AF2C6C8CBA6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C44838F7-2A6C-4249-BF08-9997B8407013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C44838F7-2A6C-4249-BF08-9997B8407013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C44838F7-2A6C-4249-BF08-9997B8407013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C44838F7-2A6C-4249-BF08-9997B8407013}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +77,9 @@ Global
 		{42394ACD-AC24-48CB-B755-2520B0EBC487} = {A1BF5689-D353-4636-A428-D72AE34B221A}
 		{B8F7E577-0CE7-423D-BFC4-DE2D3A6875CF} = {A1BF5689-D353-4636-A428-D72AE34B221A}
 		{68556980-2E17-4AF9-A886-AD6F4E3EB3E1} = {A1BF5689-D353-4636-A428-D72AE34B221A}
+		{2B3E8CD4-A15D-404C-A231-5245EC11EE6F} = {B38424B9-3EF2-4017-9464-CF25967235A0}
+		{8D43C8DD-78E1-42F9-9A58-AF2C6C8CBA6E} = {F7E84993-5B58-476B-B255-61D4E2B81A8A}
+		{C44838F7-2A6C-4249-BF08-9997B8407013} = {F7E84993-5B58-476B-B255-61D4E2B81A8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4161204F-090E-41CA-BEA4-A8ED0E44B276}

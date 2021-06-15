@@ -22,11 +22,11 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="imdbId">IMDb ID</param>
+        /// <param name="imdbId">IMDb ID (e.g </param>
         /// <returns></returns>
         [HttpGet]
         [Route("{imdbId}")]
-        public async Task<IActionResult> GetMovieByIdAsync([FromRoute] string imdbId)
+        public async Task<IActionResult> GetTitleByIdAsync([FromRoute] string imdbId)
         {
             return await InvokeAppServiceAsync(async () =>
             {
@@ -34,7 +34,7 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
 
                 return response.Match((result) =>
                 {
-                    return Ok(result.Movie);
+                    return Ok(result);
                 }, (error) =>
                 {
                     return StatusCode(error.StatusCode, new { error.ErrorMessages });
@@ -46,26 +46,26 @@ namespace Cartrack.OMDb.Web.Api.Controllers.V1
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="title">Movie title to search for.</param>
+        /// <param name="searchTerm">Search term to search titles for.</param>
         /// <param name="year">Year of release.</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("title/{title}")]
-        public async Task<IActionResult> GetMovieByTitleAsync([FromRoute] string title, [FromQuery] int? year)
+        [Route("title/{searchTerm}")]
+        public async Task<IActionResult> SearchTitlesAsync([FromRoute] string searchTerm, [FromQuery] int? year)
         {
             return await InvokeAppServiceAsync(async () =>
             {
-                var response = await _moviesService.SearchTitlesAsync(new SearchTitlesRequest(title, year));
+                var response = await _moviesService.SearchTitlesAsync(new SearchTitlesRequest(searchTerm, year));
 
                 return response.Match((result) =>
                 {
-                    return Ok(result.Movies);
+                    return Ok(result);
                 }, (error) =>
                 {
                     return StatusCode(error.StatusCode, new { error.ErrorMessages });
                 });
 
-            }, "Get movie by title and/or year.");
+            }, "Search titles using search term and/or year.");
         }
 
     }
