@@ -120,6 +120,13 @@ END//
 DELIMITER ;
 ```
 
+Then update the connection string from the appsettings.json on the *Cartrack.OMDb.Web.Api* to use your login details
+```
+"ConnectionStrings": {
+    "OmdbConnectionString": "Server=localhost;Database=omdb;User Id=Cartrack;Password=$Cartrack5;"
+}
+```
+
 The client console application makes use the CommandLineParser package to process commands.
 
 The available commands are
