@@ -120,12 +120,24 @@ END//
 DELIMITER ;
 ```
 
-Then update the connection string from the appsettings.json on the *Cartrack.OMDb.Web.Api* to use your login details
+Then update the connection string from the appsettings.json on the *Cartrack.OMDb.Web.Api* to use your login details with appropriate permissions
 ```
 "ConnectionStrings": {
     "OmdbConnectionString": "Server=localhost;Database=omdb;User Id=Cartrack;Password=$Cartrack5;"
 }
 ```
+
+You can then build and run the *Cartrack.OMDb.Web.Api* project
+
+While running the API is running navigate to the console application project path and try the following command to see what's available
+```
+dotnet run help
+```
+You will get something like the below
+![dotnet run help](documentation/images/verb-help.jpg?raw=true "Help Command")
+
+
+
 
 The client console application makes use the CommandLineParser package to process commands.
 
