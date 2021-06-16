@@ -134,9 +134,8 @@ While running the API is running navigate to the console application project pat
 dotnet run help
 ```
 You will get something like the below
+
 ![dotnet run help](documentation/images/verb-help.PNG?raw=true?raw=true "Help Command")
-
-
 
 
 The client console application makes use the CommandLineParser package to process commands.
@@ -151,15 +150,28 @@ The available commands are
 
 To run the program you can navigate to the project directory to run any of the commands. Example
 ```
-dotnet run get -i "tt9140554"
+dotnet run get -i "tt0848228"
 ```
+
+![dotnet run help](documentation/images/get-verb.PNG?raw=true?raw=true "Help Command")
+
 
 To see the available options for a command/verb you can run the help command/verb. Example
 ```
-dotnet run help create
+dotnet run help query
 ```
 
-To run OData queries, run the query command. Example 
+![dotnet run help](documentation/images/query-help.PNG?raw=true?raw=true "Help Command")
+
+
+Then you can run your OData queries
+
+![dotnet run help](documentation/images/query-verb.PNG?raw=true?raw=true "Help Command")
+
+![dotnet run help](documentation/images/query-data.PNG?raw=true?raw=true "Help Command")
+
+Example 
+
 ```
 dotnet run query -s "title, year"
 ```
