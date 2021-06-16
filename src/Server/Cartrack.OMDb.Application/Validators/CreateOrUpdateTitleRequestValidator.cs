@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 
 namespace Cartrack.OMDb.Application.Validators
 {
-    public class SaveOrUpdateTitleRequestValidator : AbstractValidator<CreateOrUpdateTitleRequest>
+    public class CreateOrUpdateTitleRequestValidator : AbstractValidator<CreateOrUpdateTitleRequest>
     {
         protected string[] ValidTypes = new string[] { "movie", "series", "episode" };
 
-        public SaveOrUpdateTitleRequestValidator()
+        public CreateOrUpdateTitleRequestValidator()
         {
             RuleFor(prop => prop.IMDbID)
                 .Matches(@"ev\d{7}\/\d{4}(-\d)?|(ch|co|ev|nm|tt)\d{7}", RegexOptions.IgnoreCase)
