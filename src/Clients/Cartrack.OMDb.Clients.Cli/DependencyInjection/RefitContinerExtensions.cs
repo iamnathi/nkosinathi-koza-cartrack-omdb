@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
 using Cartrack.OMDb.Clients.Cli.Models;
+using System.Net.Http;
+using Cartrack.OMDb.Clients.Cli.API.Handlers;
 
 namespace SimpleInjector
 {
@@ -30,7 +32,8 @@ namespace SimpleInjector
                 .ConfigureHttpClient(client =>
                 {
                     client.BaseAddress = new Uri(configuration["CartrackOMDbAPI:BaseAddress"]);
-                });
+                })
+                .ConfigureHttpMessageHandlerBuilder((c) => new UriQueryUnescapingHandler());
 
             services.AddValidatorsFromAssemblyContaining<Program>();
 

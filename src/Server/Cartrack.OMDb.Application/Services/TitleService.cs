@@ -58,7 +58,7 @@ namespace Cartrack.OMDb.Application.Services
                 }
 
                 // The OMDb API returns 200 whether the movie was found or not
-                var movieResponse = JsonSerializer.Deserialize<GetMovieResponse>(await response.Content.ReadAsStringAsync());
+                var movieResponse = JsonSerializer.Deserialize<GetTitleResponse>(await response.Content.ReadAsStringAsync());
                 if (movieResponse == null || !movieResponse.IsNot404())
                 {
                     return ErrorResult.FromError(404, new[] { movieResponse.Error });

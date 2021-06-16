@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Cartrack.OMDb.Application.Caching
 {
@@ -7,14 +8,6 @@ namespace Cartrack.OMDb.Application.Caching
         private Dictionary<string, TItem> _cache = new Dictionary<string, TItem>();
 
         private readonly object _lockObject = new object();
-
-        public void Initialize(Dictionary<string, TItem> items)
-        {
-            lock (_lockObject)
-            {
-                _cache = items;
-            }            
-        }
 
         public IEnumerable<TItem> GetAllItems()
         {
@@ -28,6 +21,11 @@ namespace Cartrack.OMDb.Application.Caching
 
         public void AddOrUpdate(string key, TItem item)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new InvalidOperationException("Cannot add/update an entry to the cache with null, empty or whitespace key.", new ArgumentNullException(nameof(key)));
+            }
+
             lock (_lockObject)
             {
                 if (_cache.ContainsKey(key))
@@ -50,8 +48,6 @@ namespace Cartrack.OMDb.Application.Caching
                     _cache.Remove(key);
                 }
             }
-        }
-
-        
+        }        
     }
 }
