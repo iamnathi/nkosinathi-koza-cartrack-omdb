@@ -39,7 +39,7 @@ namespace Cartrack.OMDb.Clients.Cli
                     (error) => 1);
         }
 
-        public int GetTitleAsync(GetTitleOptions options)
+        private int GetTitleAsync(GetTitleOptions options)
         {
             var result = _titlesService.GetTitleByIMDbIdAsync(new TitleRequest(options.IMDbID))
                 .ConfigureAwait(false).GetAwaiter().GetResult();
