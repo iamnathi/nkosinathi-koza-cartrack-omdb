@@ -134,7 +134,7 @@ While running the API is running navigate to the console application project pat
 dotnet run help
 ```
 You will get something like the below
-![dotnet run help](documentation/images/verb-help.jpg?raw=true "Help Command")
+![dotnet run help](documentation/images/verb-help.PNG?raw=true?raw=true "Help Command")
 
 
 
